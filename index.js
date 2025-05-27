@@ -1,5 +1,13 @@
+require('dotenv').config();
+const express = require("express");
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://singhnishtha206:nish_mongo20S@cluster0.76iht.mongodb.net/user_app")
+
+const mongoURL = process.env.MONGODB_URL;
+mongoose.connect(mongoURL)
+  .then(() => console.log('Connected to MongoDB successfully'))
+  .catch((err) => console.error('Error connecting to MongoDB:', err));
+
+const app = express();
 
 const User = mongoose.model('users', { name: String, email: String, password: String });
 
@@ -14,9 +22,9 @@ app.post("/signup", async function(req, res) {
     }
 
     const user = new User({ 
-        name: 'Nishtha', 
-        email: 'abcd@example.com', 
-        password: '123456'
+        name: name,
+        email: username,
+        password: password,
     });
 
     try {
